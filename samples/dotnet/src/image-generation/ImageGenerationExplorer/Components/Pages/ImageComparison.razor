@@ -207,6 +207,7 @@
     private SamplePrompt? _selectedSample;
     private readonly List<ComparisonRun> comparisons = [];
     private readonly List<ModelState> modelStates = [];
+    private readonly HashSet<string> _regeneratingCells = [];
     private ImageGenerationResult? _detailResult;
     private string? _detailPrompt;
 
@@ -349,6 +350,47 @@
         finally
         {
             isGenerating = false;
+        }
+    }
+
+    private async Task RegenerateSingleAsync(ComparisonRun run, ImageGenerationResult oldResult)
+    {
+        var cellKey = $"{run.GetHashCode()}_{oldResult.DeploymentName}";
+        if (!_regeneratingCells.Add(cellKey))
+        {
+            return;
+        }
+
+        StateHasChanged();
+
+        try
+        {
+            var modelState = modelStates.FirstOrDefault(m => m.Config.DeploymentName == oldResult.DeploymentName);
+            var model = modelState?.Config
+                ?? ExplorerOptions.Value.Models.FirstOrDefault(m => m.DeploymentName == oldResult.DeploymentName);
+
+            if (model is null)
+            {
+                return;
+            }
+
+            var width = modelState?.Width ?? oldResult.Width;
+            var height = modelState?.Height ?? oldResult.Height;
+
+            var newResult = await ComparisonService.GenerateSingleAsync(run.Prompt, model, width, height);
+
+            var updatedResults = run.Results.ToList();
+            var index = updatedResults.FindIndex(r => r.DeploymentName == oldResult.DeploymentName);
+            if (index >= 0)
+            {
+                updatedResults[index] = newResult;
+                run.Results = updatedResults;
+            }
+        }
+        finally
+        {
+            _regeneratingCells.Remove(cellKey);
+            StateHasChanged();
         }
     }
 

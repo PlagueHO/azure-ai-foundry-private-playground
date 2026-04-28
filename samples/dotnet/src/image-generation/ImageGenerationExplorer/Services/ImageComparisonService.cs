@@ -54,4 +54,34 @@ public sealed class ImageComparisonService
             Results = results,
         };
     }
+
+    /// <summary>
+    /// Regenerates a single image for the given prompt and model configuration.
+    /// </summary>
+    /// <param name="prompt">The text prompt.</param>
+    /// <param name="model">The model to generate with.</param>
+    /// <param name="width">Output width in pixels.</param>
+    /// <param name="height">Output height in pixels.</param>
+    /// <param name="cancellationToken">A cancellation token.</param>
+    /// <returns>The generation result for the single model.</returns>
+    public Task<ImageGenerationResult> GenerateSingleAsync(
+        string prompt,
+        ImageModelConfig model,
+        int width,
+        int height,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(model);
+
+        if (!_providers.TryGetValue(model.ApiType, out var provider))
+        {
+            return Task.FromResult(ImageGenerationResult.Failure(
+                model.DeploymentName,
+                model.DisplayName,
+                $"No provider registered for API type '{model.ApiType}'.",
+                0));
+        }
+
+        return provider.GenerateAsync(prompt, width, height, model, cancellationToken);
+    }
 }
