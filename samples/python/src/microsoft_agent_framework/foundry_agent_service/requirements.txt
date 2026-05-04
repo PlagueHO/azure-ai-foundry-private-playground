@@ -1,25 +1,28 @@
 # Microsoft Agent Framework (GA Release)
-# Install from PyPI - this includes all core components
-agent-framework>=1.0.0
+# https://github.com/microsoft/agent-framework/releases/tag/python-1.2.2
+agent-framework>=1.2.2
 
-# Microsoft Agent Framework Redis Support (GA Release)
+# Microsoft Agent Framework - Foundry provider
+# FoundryAgent, FoundryChatClient, RawFoundryAgentChatClient
+agent-framework-foundry>=1.2.2
+
+# Microsoft Agent Framework Redis Support
 # Provides RedisChatMessageStore for persistent thread storage
 agent-framework-redis>=1.0.0
 
 # Azure Identity for authentication
-azure-identity>=1.15.0
+azure-identity>=1.25.0
 
 # Azure AI Projects SDK (V2) for project client
-# Used for unpublished agent access with full API
-azure-ai-projects>=1.0.0b1
+# Used for agent creation via AIProjectClient.agents.create_version
+azure-ai-projects>=2.0.0
 
 # Azure Cosmos DB for persistent thread storage
 # Used by CosmosDBChatMessageStore for conversation persistence
 azure-cosmos>=4.5.0
 
-# OpenAI client for published agent access
-# Published agents expose OpenAI-compatible Responses API
-openai>=1.40.0
+# HTTP client for ARM REST API calls (publish_agent_application)
+httpx>=0.27.0
 
 # Optional: Environment variable management
 python-dotenv>=1.0.0
