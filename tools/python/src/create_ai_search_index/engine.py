@@ -140,7 +140,7 @@ class CreateAISearchIndex:
             SearchField(name="title", type=SearchFieldDataType.String),
             SearchField(
                 name="locations",
-                type=SearchFieldDataType.Collection(SearchFieldDataType.String),
+                type="Collection(Edm.String)",
                 filterable=True,
             ),
             SearchField(
@@ -161,7 +161,7 @@ class CreateAISearchIndex:
             ),
             SearchField(
                 name="text_vector",
-                type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
+                type="Collection(Edm.Single)",
                 vector_search_dimensions=self.cfg.embedding_dimension,
                 vector_search_profile_name="myHnswProfile",
             ),
@@ -175,14 +175,12 @@ class CreateAISearchIndex:
                 VectorSearchProfile(
                     name="myHnswProfile",
                     algorithm_configuration_name="myHnsw",
-                    dimensions=self.cfg.embedding_dimension,
                     vectorizer_name="myOpenAI",
                 )
             ],
             vectorizers=[
                 AzureOpenAIVectorizer(
                     vectorizer_name="myOpenAI",
-                    kind="azureOpenAI",
                     parameters=AzureOpenAIVectorizerParameters(
                         resource_url=self.cfg.azure_openai_endpoint,
                         deployment_name=self.cfg.embedding_deployment,
