@@ -1,19 +1,2 @@
-# Global code ownership
-# This file defines individuals or teams that are responsible for code in this repository.
-# When Dependabot creates pull requests, these code owners will be automatically requested for review.
-
-# Default owners for everything in the repo
+# Default ownership for all files in this repository.
 * @PlagueHO
-
-# Infrastructure and deployment files
-*.bicep @PlagueHO
-*.bicepparam @PlagueHO
-azure.yaml @PlagueHO
-
-# Configuration files
-*.json @PlagueHO
-*.yml @PlagueHO
-*.yaml @PlagueHO
-
-# Documentation
-*.md @PlagueHO
