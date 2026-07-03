@@ -70,5 +70,29 @@
       "name": "GlobalStandard",
       "capacity": 2
     }
+  },
+  {
+    "model": {
+      "format": "OpenAI",
+      "name": "MAI-Image-2.5",
+      "version": "2026-06-02"
+    },
+    "name": "mai-image-2.5",
+    "sku": {
+      "name": "GlobalStandard",
+      "capacity": 2
+    }
+  },
+  {
+    "model": {
+      "format": "OpenAI",
+      "name": "MAI-Image-2.5-Flash",
+      "version": "2026-06-02"
+    },
+    "name": "mai-image-2.5-flash",
+    "sku": {
+      "name": "GlobalStandard",
+      "capacity": 2
+    }
   }
 ]
